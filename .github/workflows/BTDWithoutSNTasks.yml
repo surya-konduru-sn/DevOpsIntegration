@@ -39,8 +39,8 @@ jobs:
             java-version: 11
       
       - name: Run Maven Tests
-        run: mvn test -Dmaven.test.failure.ignore=true surefire-report:report
-      
+        run: mvn --batch-mode --update-snapshots verify
+        
   deploy:
     environment: dev
     needs: integrationTest
