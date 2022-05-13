@@ -38,8 +38,8 @@ jobs:
         with:
             java-version: 11
       
-      - name: Maven Build
-        run: mvn clean install -U
+      - name: Run Maven Tests
+        run: mvn test -Dmaven.test.failure.ignore=true surefire-report:report
       
   deploy:
     environment: dev
