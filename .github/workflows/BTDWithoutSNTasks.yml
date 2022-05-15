@@ -23,10 +23,6 @@ jobs:
       
       - name: Run JUnit Tests
         run: mvn test -Dmaven.test.failure.ignore=true surefire-report:report
-      
-      - name: Partial Execution
-        run: echo "##vso[task.complete result=SucceededWithIssues;]" > /dev/tty
-      
           
   integrationTest:
     needs: build
