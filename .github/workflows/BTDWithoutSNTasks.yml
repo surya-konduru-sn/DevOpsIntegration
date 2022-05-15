@@ -23,6 +23,10 @@ jobs:
       
       - name: Run JUnit Tests
         run: mvn test -Dmaven.test.failure.ignore=true surefire-report:report
+      
+      - name: Partial Execution
+        run: Write-Host "##vso[task.complete result=SucceededWithIssues;]"
+      
           
   integrationTest:
     needs: build
