@@ -1,4 +1,4 @@
-name: BTD-With-SN-Tasks
+name: BTDWithSNTasks
     
 on:
   push:
