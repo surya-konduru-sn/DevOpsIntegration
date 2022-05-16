@@ -1,8 +1,8 @@
 package DevOpsDemo.DemoMavenProject;
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
+import org.testng.annotations.Test;
 
 /**
  * Unit test for simple App.

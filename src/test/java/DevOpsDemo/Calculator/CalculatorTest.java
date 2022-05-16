@@ -1,8 +1,8 @@
 package DevOpsDemo.Calculator;
 
 import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
+import static org.testng.Assert.assertFalse;
+import org.testng.annotations.Test;
 
 public class CalculatorTest {
 	Calculator calculator = new Calculator();
