@@ -2,7 +2,7 @@ name: BTDWithSNTasks
     
 on:
   push:
-    branches: ['feature/workflows']
+    branches: ['master']
   pull_request:
     branches: ['master']
   workflow_dispatch:
