@@ -1,4 +1,4 @@
-package DevOpsDemo.DemoMavenProject;
+package DevOpsDemo;
 
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;
