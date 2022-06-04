@@ -27,7 +27,7 @@ jobs:
         run: mvn test -Dmaven.test.failure.ignore=true surefire-report:report
         
       - name: ServiceNow DevOps Unit Test Results
-        uses: velivalab/servicenow-devops-test-report@master
+        uses: ServiceNow/servicenow-devops-test-report@main
         with:
           devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
           devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
