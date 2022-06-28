@@ -22,6 +22,9 @@ pipeline {
         }
         stage("Deploy") {
             steps {
+                options {
+                    timeout(time: 60, unit: "SECONDS")
+                }
                 sleep 5
                 echo "Deploying.."
                 snDevOpsStep()
