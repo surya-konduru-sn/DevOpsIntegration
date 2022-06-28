@@ -22,9 +22,7 @@ pipeline {
         }
         stage("Deploy") {
             steps {
-                options {
-                    timeout(time: 60, unit: "SECONDS")
-                }
+                
                 sleep 5
                 echo "Deploying.."
                 snDevOpsStep()
@@ -36,6 +34,9 @@ pipeline {
                     {"name": "demo5.jar","version": "1.0","semanticVersion": "1.1.0","repositoryName": "demo5"}]}""")
                 sleep 5
                 snDevOpsChange()
+                options {
+                    timeout(time: 20, unit: "SECONDS")
+                }
             }
         }
         stage("Prod") {
