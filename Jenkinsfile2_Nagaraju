@@ -1,7 +1,7 @@
 pipeline {
     agent any
     options {
-                timeout(time: 20, unit: "SECONDS")
+                timeout(time: 120, unit: "SECONDS")
       }
     tools { 
         maven 'Maven' 
