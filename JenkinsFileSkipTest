@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Stage 2') {
             when {
-                equals expected: 2, actual: 1
+                equals expected: 2, actual: 2
             }
             steps {
                 echo 'Executing stage 3'
@@ -26,7 +26,7 @@ pipeline {
 
         stage('Stage 3') {
             when {
-                equals expected: 2, actual: 1
+                equals expected: 2, actual: 2
             }
             steps {
                 // snDevOpsChange()
