@@ -34,6 +34,13 @@ pipeline {
                     {"name": "demo5.jar","version": "1.0","semanticVersion": "1.1.0","repositoryName": "demo5"}]}""")
                 sleep 5
                 snDevOpsChange()
+                script{
+                    changeNumber = snDevOpsGetChangeNumber()
+                    echo '>> Deploy Stage -----'
+                    sh "echo ${changeNumber}"
+                  
+                  }
+                
             }
         }
         stage("Prod") {
@@ -48,7 +55,7 @@ pipeline {
                     {"name": "demo4.jar","version": "1.0","semanticVersion": "1.1.0","repositoryName": "demo4"},
                     {"name": "demo5.jar","version": "1.0","semanticVersion": "1.1.0","repositoryName": "demo5"}]}""")
                 sleep 5
-                snDevOpsChange()
+                
             }
         }
     }
