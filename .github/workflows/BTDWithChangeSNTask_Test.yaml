@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Custom Change
 #         uses: ServiceNow/servicenow-devops-change@v1.34.2
-        uses: surya-konduru-sn/servicenow-devops-change@dev
+        uses: surya-konduru-sn/servicenow-devops-change@main
         with:
           devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
           devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
@@ -91,7 +91,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:  
       - name: Register Artifact
-        uses: ServiceNow/servicenow-devops-register-artifact@v1.34.2
+#         uses: ServiceNow/servicenow-devops-register-artifact@v1.34.2
+        uses: ServiceNow/servicenow-devops-register-artifact@main
         with:
           devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
           devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
@@ -102,7 +103,8 @@ jobs:
           artifacts: ' [{"name": "com:autoclaim","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
 
       - name: Register Package
-        uses: ServiceNow/servicenow-devops-register-package@v1.34.2
+#         uses: ServiceNow/servicenow-devops-register-package@v1.34.2
+        uses: ServiceNow/servicenow-devops-register-package@main
         with:
           devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
           devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
@@ -119,7 +121,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:     
       - name: Custom Change
-        uses: ServiceNow/servicenow-devops-change@v1.34.2
+#         uses: ServiceNow/servicenow-devops-change@v1.34.2
+        uses: ServiceNow/servicenow-devops-change@main
         with:
           devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
           devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
