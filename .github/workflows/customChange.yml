@@ -37,3 +37,43 @@ jobs:
       
       - name: Maven Build
         run: mvn clean install -DskipTests=true
+
+#   integrationTest:
+#     needs: deploy
+#     name: Integration Tests
+#     runs-on: ubuntu-latest
+#     steps:
+  registerartifact:
+    needs: deploy
+    name: Register Artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: ServiceNow Register Artifact
+        uses: ServiceNow/servicenow-devops-register-artifact@main
+        with:
+          devops-integration-token: ${{ secrets.SN_DEVOPS_TOKEN }}
+          devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }} 
+          devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
+          instance-url: ${{ secrets.SN_INSTANCE_URL }}
+          tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+          context-github: ${{ toJSON(github) }}
+          job-name: 'Register Artifact'
+          artifacts: '[{"name": "com:hardening1.39","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'  
+  registerpackage:
+    name: Register Package
+    needs: registerartifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: ServiceNow Register Package
+        uses: ServiceNow/servicenow-devops-register-package@main
+        with:
+          devops-integration-token: ${{ secrets.SN_DEVOPS_TOKEN }}
+          #devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }} 
+          #devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
+          instance-url: ${{ secrets.SN_INSTANCE_URL }}
+          tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+          context-github: ${{ toJSON(github) }}
+          job-name: 'Register Package'
+          #artifacts: '[{"name": "com:hardening1.39","version": "1.12","semanticVersion": "1.12.0","repositoryName": "${{ github.repository }}"}]'
+          artifacts: '[{"name": "com:hardening1.39","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
+          package-name: 'hardening1.39.war'
