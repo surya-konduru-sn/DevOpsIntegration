@@ -1,0 +1,78 @@
+name: customchangeartpack
+
+on:
+#   pull_request:
+#     branches: ['master']
+  workflow_dispatch:
+
+jobs:
+#   integrationTest:
+#     needs: deploy
+#     name: Integration Tests
+#     runs-on: ubuntu-latest
+#     steps:
+  registerartifact:
+    name: Register Artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: ServiceNow Register Artifact
+        uses: ServiceNow/servicenow-devops-register-artifact@main
+        with:
+          devops-integration-token: ${{ secrets.SN_DEVOPS_TOKEN }}
+          devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }} 
+          devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
+          instance-url: ${{ secrets.SN_INSTANCE_URL }}
+          tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+          context-github: ${{ toJSON(github) }}
+          job-name: 'Register Artifact'
+          artifacts: '[{"name": "com:hardening1.39","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'  
+  registerpackage:
+    name: Register Package
+    needs: registerartifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: ServiceNow Register Package
+        uses: ServiceNow/servicenow-devops-register-package@main
+        with:
+          devops-integration-token: ${{ secrets.SN_DEVOPS_TOKEN }}
+          #devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }} 
+          #devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
+          instance-url: ${{ secrets.SN_INSTANCE_URL }}
+          tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+          context-github: ${{ toJSON(github) }}
+          job-name: 'Register Package'
+          #artifacts: '[{"name": "com:hardening1.39","version": "1.12","semanticVersion": "1.12.0","repositoryName": "${{ github.repository }}"}]'
+          artifacts: '[{"name": "com:hardening1.39","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
+          package-name: 'hardening1.39.war'
+  deploy:
+    name: Deploy
+    needs: registerpackage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Custom Change
+        uses: velivalab/servicenow-devops-change@master
+        with:
+          devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
+          devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
+          instance-url: ${{ secrets.SN_INSTANCE_URL }}
+          tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+          context-github: ${{ toJSON(github) }}
+          job-name: 'Deploy'
+          change-request: '{"setCloseCode":"true","attributes":{"short_description":"Automated Software Deployment","description":"Automated Software Deployment.","assignment_group":"a715cd759f2002002920bde8132e7018","implementation_plan":"Software update is tested and results can be found in Test Summaries Tab.","backout_plan":"When software fails in production, the previous software release will be re-deployed.","test_plan":"Testing if the software was successfully deployed."}}'
+          interval: '100'
+          timeout: '3600'
+          
+      - name: Run deployment scripts
+        run: echo Completed Deployment.
+          
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      
+      - name: Setup JDK 11 for Sonar Cloud
+        uses: actions/setup-java@v1
+        with:
+            java-version: 11
+      
+      - name: Maven Build
+        run: mvn clean install -DskipTests=true
+
