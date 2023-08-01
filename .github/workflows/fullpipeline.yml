@@ -212,6 +212,10 @@ jobs:
                   instance-url: ${{ secrets.SN_INSTANCE_URL }}
                   # Devops Integration User Name
                   devops-integration-token: ${{ secrets.GHP_TOKEN }}
+                  # Devops Integration User Name
+                  devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
+                  # Devops Integration User Password
+                  devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}                  
                   # Orchestration Tool Id
                   tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
                   # Display Name of the Job
