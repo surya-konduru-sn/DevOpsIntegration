@@ -1,0 +1,45 @@
+# Testing Webhooks
+
+name: wx
+
+on:
+  push:
+    branches: ['master']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Git tag'
+        required: true
+        default: 'v3.6.8'
+
+jobs:
+  build:
+    name: Build
+    strategy:
+      matrix:
+        environments: [{ environment: dev, project_number: 156373064713 }, { environment: test, project_number: 425985732847 }, { environment: uat, project_number: 401655566443 }, { environment: prod, project_number: 238996678094 }]
+        node-version: [12.18.3]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    environment: ${{ matrix.environments.environment }}
+
+    steps:
+      - run: echo "🐧 Now Running Change Automation"
+      - name: ServiceNow DevOps Change Automation
+        if: matrix.environments.environment == 'dev'
+        uses: ServiceNow/servicenow-devops-change@v1.38.0
+        with:
+          devops-integration-user-name: 'devops.integration.user'
+          devops-integration-user-password: '!!!Quest4Six!!!'
+          instance-url: 'https://empalonnon3.service-now.com'
+          tool-id: '6615c6e687e6a5108c0f41dd8bbb3523'
+          context-github: ${{ toJSON(github) }}
+          job-name: 'Build (${{ matrix.environments.environment }}, ${{ matrix.environments.project_number }}, ${{ matrix.node-version }})'
+          change-request: '{"setCloseCode": "true","attributes": {"short_description": "${{ github.workflow }}-${{ github.run_number }}","description": "Automated Software Deployment. ${{ github.event.inputs.tag }}","assignment_group": "cfcbad03d711110050f5edcb9e61038f","assigned_to": {"email": "ashley@lonnon.net"},"implementation_plan": "Software update is tested and results can be found in Test Summaries Tab; When the change is approved the implementation happens automated by the CICD pipeline within the change planned start and end time window.","backout_plan": "When software fails in production, the previous software release will be re-deployed.","test_plan": "Testing if the software was successfully deployed"}}'
+          interval: '100'
+          timeout: '3600'
+          changeCreationTimeOut: '3600'
+          abortOnChangeCreationFailure: true
+          abortOnChangeStepTimeout: true
