@@ -111,8 +111,9 @@ jobs:
       - name: Failing step
         id: demo
         run: exit 1
-      # - name: The demo step has failed
-      #   if: ${{ failure() && steps.demo.conclusion == 'failure' }}
+      - name: The demo step has failed
+        if: ${{ failure() && steps.demo.conclusion == 'failure' }}
+        run: echo After failure step.
 #   integrationTest:
 #     needs: deploy
 #     name: Integration Tests
