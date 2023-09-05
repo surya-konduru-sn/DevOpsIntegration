@@ -51,10 +51,7 @@ jobs:
           tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
           context-github: ${{ toJSON(github) }}
           job-name: 'Register Artifact test error'
-          artifacts: '[{"name": "app-build","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'  
-			  # if: steps.myStepId1.outcome == 'failure'
-			  # This needs to be true to proceed to the next step of failure
-			  
+          artifacts: '[{"name": "app-build","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'		  
   registerpackage:
     name: Register Package
     needs: registerartifact
