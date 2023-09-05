@@ -11,6 +11,13 @@ jobs:
     name: Build Project
     runs-on: ubuntu-latest
     steps:
+      - name: Failing step
+        id: demo
+        run: exit 1
+      - name: The demo step has failed
+        # if: ${{ failure() && steps.demo.conclusion == 'failure' }}
+        if: ${{ always() }}
+        run: echo After failure step.    
       - name: Run deployment scripts
         run: echo Completed Deployment.
           
@@ -24,6 +31,7 @@ jobs:
       
       - name: Maven Build
         run: mvn clean install -DskipTests=true
+     
   registerartifact:
     name: Register Artifact
     runs-on: ubuntu-latest
@@ -112,7 +120,8 @@ jobs:
         id: demo
         run: exit 1
       - name: The demo step has failed
-        if: ${{ failure() && steps.demo.conclusion == 'failure' }}
+        # if: ${{ failure() && steps.demo.conclusion == 'failure' }}
+        if: ${{ always() }}
         run: echo After failure step.
 #   integrationTest:
 #     needs: deploy
