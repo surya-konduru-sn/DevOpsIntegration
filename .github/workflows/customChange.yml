@@ -39,7 +39,7 @@ jobs:
     needs: buildproject
     steps:
       - name: ServiceNow Register Artifact
-        continue-on-error: true
+        # continue-on-error: true
 #         uses: ServiceNow/servicenow-devops-register-artifact@main
 #         uses: ServiceNow/servicenow-devops-register-artifact@v1.34.2
         uses: ServiceNow/servicenow-devops-register-artifact@scratch/CSTASK622895
