@@ -11,14 +11,14 @@ jobs:
     name: Build Project
     runs-on: ubuntu-latest
     steps:
-      - name: Failing step
-        id: demo
-        # run: exit 1
-        # run: throw error
-      - name: The demo step has failed
-        # if: ${{ failure() && steps.demo.conclusion == 'failure' }}
-        if: ${{ always() }}
-        run: echo After failure step.    
+      # - name: Failing step
+      #   id: demo
+      #   # run: exit 1
+      #   # run: throw error
+      # - name: The demo step has failed
+      #   # if: ${{ failure() && steps.demo.conclusion == 'failure' }}
+      #   if: ${{ always() }}
+      #   run: echo After failure step.    
       - name: Run deployment scripts
         run: echo Initiating Deployment.
           
