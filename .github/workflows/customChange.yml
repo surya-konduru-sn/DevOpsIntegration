@@ -14,24 +14,24 @@ jobs:
       - name: Failing step
         id: demo
         # run: exit 1
-        run: 'sdfkljsdlfkjsdlf;sd'flkfdslk;
+        # run: throw error
       - name: The demo step has failed
         # if: ${{ failure() && steps.demo.conclusion == 'failure' }}
         if: ${{ always() }}
         run: echo After failure step.    
       - name: Run deployment scripts
-        run: echo Completed Deployment.
+        run: echo Initiating Deployment.
           
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      # - name: Checkout Code
+      #   uses: actions/checkout@v2
       
-      - name: Setup JDK 11 for Sonar Cloud
-        uses: actions/setup-java@v1
-        with:
-            java-version: 11
+      # - name: Setup JDK 11 for Sonar Cloud
+      #   uses: actions/setup-java@v1
+      #   with:
+      #       java-version: 11
       
-      - name: Maven Build
-        run: mvn clean install -DskipTests=true
+      # - name: Maven Build
+      #   run: mvn clean install -DskipTests=true
      
   registerartifact:
     name: Register Artifact
@@ -39,6 +39,7 @@ jobs:
     needs: buildproject
     steps:
       - name: ServiceNow Register Artifact
+        continue-on-error: true
 #         uses: ServiceNow/servicenow-devops-register-artifact@main
 #         uses: ServiceNow/servicenow-devops-register-artifact@v1.34.2
         uses: ServiceNow/servicenow-devops-register-artifact@scratch/CSTASK622895
@@ -51,6 +52,9 @@ jobs:
           context-github: ${{ toJSON(github) }}
           job-name: 'Register Artifact test error'
           artifacts: '[{"name": "app-build","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'  
+			  # if: steps.myStepId1.outcome == 'failure'
+			  # This needs to be true to proceed to the next step of failure
+			  
   registerpackage:
     name: Register Package
     needs: registerartifact
