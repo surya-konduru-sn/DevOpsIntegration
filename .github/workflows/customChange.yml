@@ -98,6 +98,9 @@ jobs:
           # change-request: '{"setCloseCode":true}'
           interval: '100'
           timeout: '3600'
+      - name: Continue On Error
+        if: always()
+        run: echo Completed Deployment currently in Continue On Error state.
   post_change:
     name: Post Change
     needs: seconddeploy
