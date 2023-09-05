@@ -108,6 +108,11 @@ jobs:
     steps:
       - name: Run deployment scripts
         run: echo Completed Deployment currently in post_change state.
+      - name: Failing step
+        id: demo
+        run: exit 1
+      # - name: The demo step has failed
+      #   if: ${{ failure() && steps.demo.conclusion == 'failure' }}
 #   integrationTest:
 #     needs: deploy
 #     name: Integration Tests
