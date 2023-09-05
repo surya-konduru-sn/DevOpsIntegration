@@ -84,7 +84,7 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Custom Change
+      - name: Second Custom Change
         uses: velivalab/servicenow-devops-change@master
         with:
           devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
