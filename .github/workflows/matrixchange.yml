@@ -17,7 +17,8 @@ jobs:
     name: Build
     strategy:
       matrix:
-        environments: [{ environment: dev, project_number: 156373064713 }, { environment: test, project_number: 425985732847 }, { environment: uat, project_number: 401655566443 }, { environment: prod, project_number: 238996678094 }]
+        # environments: [{ environment: dev, project_number: 156373064713 }, { environment: test, project_number: 425985732847 }, { environment: uat, project_number: 401655566443 }, { environment: prod, project_number: 238996678094 }]
+        environments: [ubuntu-latest, windows-latest]
         node-version: [12.18.3]
     runs-on: ubuntu-latest
     permissions:
