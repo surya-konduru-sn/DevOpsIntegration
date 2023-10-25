@@ -79,6 +79,7 @@ jobs:
         # uses: velivalab/servicenow-devops-change@master
         uses: ServiceNow/servicenow-devops-change@main
         with:
+          devops-integration-token: ${{ secrets.SN_DEVOPS_TOKEN }}        
           devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
           devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
           instance-url: ${{ secrets.SN_INSTANCE_URL }}
