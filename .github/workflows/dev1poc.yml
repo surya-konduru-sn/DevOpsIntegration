@@ -1,0 +1,55 @@
+---
+name: dev1poc
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: null
+jobs:
+  build:
+    name: Build sample poc
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run a one-line script
+        run: echo Completed Build!
+      - name: ServiceNow Change
+        uses: ServiceNow/servicenow-devops-change@v3.1.0
+        with:
+          devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
+          devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
+          instance-url: ${{ secrets.SN_INSTANCE_URL }}
+          tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+          context-github: ${{ toJSON(github) }}
+          job-name: 'Build sample poc'
+          change-request: '{"setCloseCode":"true","attributes":{"short_description":"GitHubDev1 - Automated Software Deployment","description":"GitHub Automated Software Deployment.","assignment_group":"5e88cadf1bd1e1507ef12f002d4bcb97","assigned_to":{"email":"${{github.event.commits[0].author.email}}"},"implementation_plan":"Software update is tested and results can befound in Test Summaries Tab; When the change is approved the implementation happens automated by the CICD pipeline within the change planned start and end time window.","backout_plan":"When software fails in production, the previous software release will be re-deployed.","test_plan":"Testing if the software was successfully deployed","start_date":"13-03-2024 10:04 PM","end_date":"13-03-2024 11:04 PM"}}'
+          interval: "100"
+          timeout: "3600"
+          changeCreationTimeOut: "3600"
+          deployment-gate: '{"environment":"deployment_gate","jobName":"Deploy"}'  
+  deploy:
+    name: 'Deploy'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: deployment_gate
+    steps:
+      - name: Run last step
+        run: echo Deployment Completed
+  # registerartifact:
+  #   name: Register Artifact
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: ServiceNow Register Artifact
+  #       uses: ServiceNow/servicenow-devops-register-artifact@v3.1.0
+  #       with:
+  #         devops-integration-user-name: ${{ secrets.SN_DEVOPS_USER }}
+  #         devops-integration-user-password: ${{ secrets.SN_DEVOPS_PASSWORD }}
+  #         instance-url: ${{ secrets.SN_INSTANCE_URL }}
+  #         tool-id: ${{ secrets.SN_ORCHESTRATION_TOOL_ID }}
+  #         context-github: ${{ toJSON(github) }}
+  #         job-name: 'Register Artifact'
+  #         artifacts: '[{"name": "com:customactiondemo","version": "1.${{ github.run_number }}","semanticVersion": "1.${{ github.run_number }}.0","repositoryName": "${{ github.repository }}"}]'
