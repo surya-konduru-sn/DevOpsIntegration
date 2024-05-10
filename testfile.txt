@@ -7,3 +7,4 @@ This is second merge commit
 This is the 3rd merge test commit
 
 This is the merge commit - pull request
+Pull request merge commit
