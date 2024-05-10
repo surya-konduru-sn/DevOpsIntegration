@@ -1,3 +1,5 @@
 this is just a test file
 Adding a change to invoke Code event.
 One more test commit.
+
+This is a commit to test squash merge - 1 
