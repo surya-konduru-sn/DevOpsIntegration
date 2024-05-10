@@ -4,3 +4,4 @@ One more test commit.
 
 This is a commit to test squash merge - 1 
 This is second merge commit
+This is the 3rd merge test commit
