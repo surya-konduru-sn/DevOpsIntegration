@@ -10,3 +10,9 @@ This is the merge commit - pull request
 Pull request merge commit
 
 This is a history commit
+
+### Second set of commits ### 
+
+Commit change - 1 
+Commit Change - 2
+Commit Change - 3
